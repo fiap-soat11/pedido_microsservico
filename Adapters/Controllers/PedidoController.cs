@@ -10,15 +10,11 @@ namespace Adapters.Controllers
     {
         private readonly ILogger<PedidoController> _logger;
         private readonly IPedidoGateway _pedidoGateway;
-        private readonly IProdutoGateway _produtoGateway;
-        private readonly IClienteGateway _clienteGateway;
-
-        public PedidoController(ILogger<PedidoController> logger, IPedidoGateway pedidoGateway, IProdutoGateway produtoGateway, IClienteGateway clienteGateway)
+       
+        public PedidoController(ILogger<PedidoController> logger, IPedidoGateway pedidoGateway)
         {
             _logger = logger;
-            _pedidoGateway = pedidoGateway;
-            _produtoGateway = produtoGateway;
-            _clienteGateway = clienteGateway;
+            _pedidoGateway = pedidoGateway;            
         }
 
         public async Task<Pedido> AdicionarProduto(int idPedido, int idProduto, int quantidade, string? observacao)
@@ -29,9 +25,9 @@ namespace Adapters.Controllers
                 if (pedido == null)
                     throw new BusinessException("Pedido não encontrado.");
 
-                var produto = await _produtoGateway.BuscarProdutoPorId(idProduto);
-                if (produto == null)
-                    throw new BusinessException("Produto não encontrado.");
+                //var produto = await _produtoGateway.BuscarProdutoPorId(idProduto);
+                //if (produto == null)
+                //    throw new BusinessException("Produto não encontrado.");
 
                 await _pedidoGateway.AdicionarProduto(idPedido, idProduto, quantidade, observacao);
                 return await _pedidoGateway.BuscarPedidoPorId(idPedido);
@@ -65,19 +61,20 @@ namespace Adapters.Controllers
         {
             try
             {
-                Cliente? cliente = null;
+                //Cliente? cliente = null;
 
-                if (!string.IsNullOrWhiteSpace(cpf))
-                {
-                    cliente = await _clienteGateway.BuscarClientePorCPF(cpf);
+                //if (!string.IsNullOrWhiteSpace(cpf))
+                //{
+                //    cliente = await _clienteGateway.BuscarClientePorCPF(cpf);
 
-                    if (cliente == null)
-                        throw new BusinessException("Cliente não encontrado.");
-                }
+                //    if (cliente == null)
+                //        throw new BusinessException("Cliente não encontrado.");
+                //}
 
-                var pedido = await _pedidoGateway.IniciarPedido(cliente?.Cpf);
+                //var pedido = await _pedidoGateway.IniciarPedido(cliente?.Cpf);
 
-                return pedido;
+                //return pedido;
+                return null;
             }
             catch (Exception ex)
             {
@@ -86,11 +83,7 @@ namespace Adapters.Controllers
             }
         }
 
-        public List<PedidoProduto> ListarProdutosDoPedido(int idPedido)
-        {
-            throw new NotImplementedException();
-        }       
-
+       
         public async Task<Pedido> RemoverProduto(int idPedido, int idPedidoProduto)
         {
             try

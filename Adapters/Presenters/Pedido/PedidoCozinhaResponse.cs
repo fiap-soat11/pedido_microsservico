@@ -13,8 +13,6 @@ namespace Adapters.Presenters.Pedido
 
         public int? IdStatusAtual { get; set; }
 
-        public virtual ICollection<PedidoProduto> PedidoProdutos { get; set; } = new List<PedidoProduto>();
-
-        public virtual ICollection<Preparo> Preparos { get; set; } = new List<Preparo>();
+        
     }
 }

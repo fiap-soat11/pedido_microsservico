@@ -1,7 +1,7 @@
 using Domain;
 using System;
 using System.Collections.Generic;
-using Adapters.Presenters.Produto;
+
 
 namespace Adapters.Presenters.Pedido
 {

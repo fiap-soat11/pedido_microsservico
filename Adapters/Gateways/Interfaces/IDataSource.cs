@@ -4,29 +4,7 @@ namespace Adapters.Gateways.Interfaces
 {
     public interface IDataSource
     {
-        #region Cliente DataSource
-        Task AtualizarCliente(Cliente cliente);
-        Task<Cliente> BuscarClientePorCPF(string cpf);
-        Task<Cliente> BuscarClientePorEmail(string email);
-        Task<IEnumerable<Cliente>> ListarTodos();
-        Task ExcluirCliente(Cliente cliente);
-        Task<Cliente> IncluirCliente(Cliente cliente);
-
-        #endregion
-
-        #region Categoria DataSource
-        Task<IEnumerable<Categoria>> ListarCategorias();
-
-        #endregion
-
-        #region Produto DataSource
-        Task<Produto> IncluirProduto(Produto produto);
-        Task AtualizarProduto(Produto produto);
-        Task ExcluirProduto(Produto produto);
-        Task<IEnumerable<Produto>> ListarProdutos();
-        Task<List<Produto>> BuscarProdutosCategoria(int IdCategoria);
-        Task<Produto> BuscarProdutoPorProdutoID(int produtoID);
-        #endregion
+        
 
         #region Pedido DataSource
         Task<Pedido> IniciarPedido(string cpf);
@@ -45,16 +23,7 @@ namespace Adapters.Gateways.Interfaces
 
         #endregion
 
-        #region Status DataSource
-        Task<IEnumerable<Status>> ListarTodosStatus();
-        Task<Status> BuscarStatusPorNome(string nomeStatus);
-        Task<Status> BuscarStatusPorId(int idStatus);
-
-        #endregion
-
-        #region PedidoProduto DataSource
-        Task<IList<PedidoProduto>> CarregarTodosProdutosPedido(int idPedido);
-        #endregion
+        
 
     }
 
