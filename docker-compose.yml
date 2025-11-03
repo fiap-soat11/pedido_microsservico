@@ -5,7 +5,9 @@ services:
     ports:
       - "5001:8080"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=db;Port=3306;Database=fiap;Uid=user_fiap;Pwd=pass_fiap;
+      - AWS__Region=us-east-1
+      - AWS__DynamoDB__ServiceURL=http://db:8000
+      - AWS__DynamoDB__TableName=Pedidos
     depends_on:
       - db
     networks:

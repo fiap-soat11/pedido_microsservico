@@ -6,7 +6,7 @@ namespace DataSource.Repositories
 {
     public class PedidoRepository : RepositoryBase<Pedido, int>, IPedidoRepository
     {
-        public PedidoRepository(ApplicationDbContext dbContext) : base(dbContext)
+        public PedidoRepository(DynamoDbContext context) : base(context)
         {
 
         }

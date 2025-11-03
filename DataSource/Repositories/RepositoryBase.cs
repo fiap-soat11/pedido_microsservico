@@ -1,96 +1,87 @@
 ﻿using DataSource.Context;
-using Microsoft.EntityFrameworkCore;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
 using System.Linq.Expressions;
 
 namespace DataSource.Repositories
 {
     public class RepositoryBase<TEntity, TKey> : IDisposable, IRepository<TEntity, TKey> where TEntity : class
     {
-        private readonly ApplicationDbContext _entities;
+        protected readonly DynamoDbContext _context;
+        protected readonly IDynamoDBContext _dynamoDbContext;
 
-
-        private DbSet<TEntity> Dbset
+        public RepositoryBase(DynamoDbContext context)
         {
-            get { return _entities.Set<TEntity>(); }
+            _context = context;
+            _dynamoDbContext = context.Context;
         }
 
-        public RepositoryBase(ApplicationDbContext dbContext)
+        public virtual IEnumerable<TEntity> ListarTodos()
         {
-            _entities = dbContext;
+            var conditions = new List<ScanCondition>();
+            return _dynamoDbContext.ScanAsync<TEntity>(conditions).GetRemainingAsync().Result;
         }
 
-        public IEnumerable<TEntity> ListarTodos()
+        public virtual TEntity BuscarPorId(TKey id)
         {
-            return Dbset.AsEnumerable();
+            return _dynamoDbContext.LoadAsync<TEntity>(id).Result;
         }
 
-        public TEntity BuscarPorId(TKey id)
+        public virtual void Inserir(TEntity entity)
         {
-            return Dbset.Find(id);
+            _dynamoDbContext.SaveAsync(entity).Wait();
         }
 
-        public void Inserir(TEntity entity)
-        {
-            Dbset.Add(entity);
-            _entities.SaveChanges();
-        }
-
-        public IEnumerable<TEntity> Buscar(Expression<Func<TEntity, bool>> predicate)
+        public virtual IEnumerable<TEntity> Buscar(Expression<Func<TEntity, bool>> predicate)
         {
             if (predicate == null)
             {
-                throw new ArgumentNullException("predicate");
+                throw new ArgumentNullException(nameof(predicate));
             }
 
-            return Dbset.Where(predicate);
+            var allItems = ListarTodos();
+            return allItems.AsQueryable().Where(predicate);
         }
 
-
-
-        public void Atualizar(TEntity entity)
+        public virtual void Atualizar(TEntity entity)
         {
             if (entity == null)
-                throw new ArgumentNullException("entity");
-            Dbset.Attach(entity);
-            _entities.Entry(entity).State = EntityState.Modified;
-            _entities.SaveChanges();
+                throw new ArgumentNullException(nameof(entity));
+            
+            _dynamoDbContext.SaveAsync(entity).Wait();
         }
 
-        public void Excluir(TKey id)
+        public virtual void Excluir(TKey id)
         {
             var entity = BuscarPorId(id);
             if (entity == null)
                 throw new Exception("Entidade não existe");
-            Dbset.Remove(entity);
-            _entities.SaveChanges();
+            
+            _dynamoDbContext.DeleteAsync<TEntity>(id).Wait();
         }
 
-        public void Excluir(TEntity entity)
+        public virtual void Excluir(TEntity entity)
         {
-            Dbset.Remove(entity);
-            _entities.SaveChanges();
+            _dynamoDbContext.DeleteAsync(entity).Wait();
         }
 
-        public void Excluir(Expression<Func<TEntity, bool>> @where)
+        public virtual void Excluir(Expression<Func<TEntity, bool>> where)
         {
-            IEnumerable<TEntity> objects = Dbset.Where(where).AsEnumerable();
+            var objects = Buscar(where);
             foreach (TEntity obj in objects)
-                Dbset.Remove(obj);
-            _entities.SaveChanges();
+            {
+                _dynamoDbContext.DeleteAsync(obj).Wait();
+            }
         }
 
-        public bool Existe(Expression<Func<TEntity, bool>> predicate)
+        public virtual bool Existe(Expression<Func<TEntity, bool>> predicate)
         {
-            return Dbset.Any(predicate);
+            return Buscar(predicate).Any();
         }
-
 
         public void Dispose()
         {
-            if (_entities != null)
-                _entities.Dispose();
+            _dynamoDbContext?.Dispose();
         }
-
-
     }
 }
