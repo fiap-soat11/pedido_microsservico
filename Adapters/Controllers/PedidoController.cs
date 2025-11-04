@@ -61,6 +61,7 @@ namespace Adapters.Controllers
         {
             try
             {
+                
                 //Cliente? cliente = null;
 
                 //if (!string.IsNullOrWhiteSpace(cpf))
@@ -74,7 +75,9 @@ namespace Adapters.Controllers
                 //var pedido = await _pedidoGateway.IniciarPedido(cliente?.Cpf);
 
                 //return pedido;
-                return null;
+
+                Pedido pedido = await _pedidoGateway.IniciarPedido(cpf);
+                return pedido;
             }
             catch (Exception ex)
             {

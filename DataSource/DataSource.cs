@@ -28,14 +28,14 @@ namespace DataSource
             //        throw new BusinessException("Cliente não encontrado.");
             //}
 
-            //var pedido = new Pedido
-            //{
-            //    Cpf = cliente?.Cpf,
-            //    IdStatusAtual = 1,
-            //    ValorTotal = 0
-            //};
+            var pedido = new Pedido
+            {
+                Cpf = cpf,
+                IdStatusAtual = 1,
+                ValorTotal = 0
+            };
 
-            //_pedidoRepository.Inserir(pedido);
+            _pedidoRepository.Inserir(pedido);
 
             //return pedido;
             return null;

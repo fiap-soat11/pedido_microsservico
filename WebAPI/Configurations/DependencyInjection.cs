@@ -25,15 +25,16 @@ namespace WebAPI.Configurations
             var serviceUrl = configuration["AWS:DynamoDB:ServiceURL"];
             var region = configuration["AWS:Region"] ?? "us-east-1";
             
-            // Se estiver usando DynamoDB Local, configura credenciais fake
             if (!string.IsNullOrEmpty(serviceUrl))
             {
                 var credentials = new BasicAWSCredentials("fakeAccessKey", "fakeSecretKey");
                 var config = new AmazonDynamoDBConfig
                 {
-                    ServiceURL = serviceUrl
+                    ServiceURL = serviceUrl,
+                    //RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName(region),
+                    
+
                 };
-                
                 Services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(credentials, config));
             }
             else
