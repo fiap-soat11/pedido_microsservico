@@ -21,6 +21,6 @@ namespace Adapters.Controllers.Interfaces
         Task<Pedido> AdicionarProduto(int idPedido, int idProduto, int quantidade, string? observacao);
         Task<Pedido> AtualizarProduto(int idPedido, int idPedidoProduto, int novaQuantidade, string? observacao);
         Task<Pedido> RemoverProduto(int idPedido, int idPedidoProduto);
-        List<PedidoProduto> ListarProdutosDoPedido(int idPedido);
+        //List<PedidoProduto> ListarProdutosDoPedido(int idPedido);
     }
 }

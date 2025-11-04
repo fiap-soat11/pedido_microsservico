@@ -58,7 +58,7 @@ namespace Adapters.Gateways
 
         public void AtualizarPedido(Pedido pedido)
             => _dataSource.AtualizarPedido(pedido);
-        public Task<IList<PedidoProduto>> CarregarTodosProdutosPedido(int idPedido)
-           => _dataSource.CarregarTodosProdutosPedido(idPedido);
+        //public Task<IList<PedidoProduto>> CarregarTodosProdutosPedido(int idPedido)
+        //   => _dataSource.CarregarTodosProdutosPedido(idPedido);
     }
 }

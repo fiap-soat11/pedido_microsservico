@@ -17,7 +17,7 @@ namespace Adapters.Gateways.Interfaces
         Task<Pedido> RemoverProduto(int idPedido, int idPedidoProduto);
         void AtualizarPedido(Pedido pedido);
         void RecalcularValorTotal(Pedido pedido);
-        Task<IList<PedidoProduto>> CarregarTodosProdutosPedido(int idPedido);
+        //Task<IList<PedidoProduto>> CarregarTodosProdutosPedido(int idPedido);
 
     }
 }

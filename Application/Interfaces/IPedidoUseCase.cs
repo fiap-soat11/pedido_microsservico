@@ -4,7 +4,7 @@ namespace Application.Interfaces
 {
     public interface IPedidoUseCase
     {
-        Task<IEnumerable<Status>> ListarStatus();
+        //Task<IEnumerable<Status>> ListarStatus();
         Task<Pedido> IniciarPedido(string cpf);
         Task<Pedido> AdicionarProduto(int idPedido, int idProduto, int quantidade, string? observacao);
         Task<Pedido> AtualizarProduto(int idPedido, int idPedidoProduto, int novaQuantidade, string? observacao);

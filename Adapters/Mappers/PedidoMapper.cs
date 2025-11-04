@@ -1,6 +1,5 @@
 ﻿using Adapters.Presenters.Pedido;
-using Adapters.Presenters.Cliente;
-using Adapters.Presenters.Produto;
+
 using Domain;
 
 namespace Adapters.Mappers
@@ -67,8 +66,7 @@ namespace Adapters.Mappers
                 DataPedido = pedido.DataPedido ?? DateOnly.MinValue,
                 IdStatusAtual = pedido.IdStatusAtual,
                 ValorTotal = pedido.ValorTotal ?? 0m,
-                PedidoProdutos = pedido.PedidoProdutos,
-                QRCode = pedido.QRCode,
+                
             };
         }
 
@@ -78,8 +76,7 @@ namespace Adapters.Mappers
             {
                 IdPedido = pedido.IdPedido,
                 IdStatusAtual = pedido.IdStatusAtual,
-                PedidoProdutos = pedido.PedidoProdutos,
-                Preparos = pedido.Preparos
+                
             };
         }
 
