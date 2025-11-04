@@ -1,6 +1,7 @@
 ﻿using Adapters.Presenters.Pedido;
 
 using Domain;
+using Domain.Enums;
 
 namespace Adapters.Mappers
 {
@@ -10,8 +11,8 @@ namespace Adapters.Mappers
         {
             return new PedidoClienteResponse
             {
-                IdPedido = pedido.IdPedido,
-                IdStatusAtual = pedido.IdStatusAtual
+                IdPedido = pedido.PedidoId,
+                StatusAtual = ((StatusPedidoEnum)pedido.StatusAtual.Value).ToString()
             };
         }
 
@@ -61,10 +62,10 @@ namespace Adapters.Mappers
         {
             return new PedidoResponse
             {
-                IdPedido = pedido.IdPedido,
-                Cpf = pedido.Cpf,
-                DataPedido = pedido.DataPedido ?? DateOnly.MinValue,
-                IdStatusAtual = pedido.IdStatusAtual,
+                IdPedido = pedido.PedidoId,
+                Cpf = pedido.Cliente.Cpf,
+                DataPedido = pedido.DataPedidoFormatado,
+                StatusAtual = ((StatusPedidoEnum)pedido.StatusAtual.Value).ToString(),
                 ValorTotal = pedido.ValorTotal ?? 0m,
                 
             };
@@ -74,9 +75,9 @@ namespace Adapters.Mappers
         {
             return new PedidoCozinhaResponse
             {
-                IdPedido = pedido.IdPedido,
-                IdStatusAtual = pedido.IdStatusAtual,
-                
+                IdPedido = pedido.PedidoId,
+                StatusAtual = ((StatusPedidoEnum)pedido.StatusAtual.Value).ToString()
+
             };
         }
 

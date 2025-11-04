@@ -11,7 +11,7 @@ namespace Adapters.Presenters.Pedido
     {
         public int IdPedido { get; set; }
 
-        public int? IdStatusAtual { get; set; }
+        public string StatusAtual { get; set; }
 
         
     }

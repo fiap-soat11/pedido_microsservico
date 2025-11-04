@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Adapters.Presenters.Pedido
 {
-    public class PedidoClienteResponse
+    public class ClienteRequest
     {
-        public int IdPedido { get; set; }
+        public string? Cpf { get; set; }
 
-        public string StatusAtual { get; set; }
+        public string? Nome { get; set; }
 
+        public string? Email { get; set; }
     }
 }

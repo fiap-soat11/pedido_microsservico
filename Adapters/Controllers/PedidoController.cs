@@ -1,5 +1,7 @@
 ﻿using Adapters.Controllers.Interfaces;
 using Adapters.Gateways.Interfaces;
+using Adapters.Mappers;
+using Adapters.Presenters.Pedido;
 using Application.Configurations;
 using Domain;
 using Microsoft.Extensions.Logging;
@@ -17,7 +19,7 @@ namespace Adapters.Controllers
             _pedidoGateway = pedidoGateway;            
         }
 
-        public async Task<Pedido> AdicionarProduto(int idPedido, int idProduto, int quantidade, string? observacao)
+        public async Task<Pedido> AdicionarProduto(int idPedido, AdicionarProdutoPedidoRequest produto)
         {
             try
             {
@@ -25,11 +27,10 @@ namespace Adapters.Controllers
                 if (pedido == null)
                     throw new BusinessException("Pedido não encontrado.");
 
-                //var produto = await _produtoGateway.BuscarProdutoPorId(idProduto);
-                //if (produto == null)
-                //    throw new BusinessException("Produto não encontrado.");
+                var produtoEntity = ProdutoMapper.ToEntity(produto);
 
-                await _pedidoGateway.AdicionarProduto(idPedido, idProduto, quantidade, observacao);
+
+                await _pedidoGateway.AdicionarProduto(idPedido, produtoEntity);
                 return await _pedidoGateway.BuscarPedidoPorId(idPedido);
             }
             catch (Exception ex)
@@ -39,7 +40,7 @@ namespace Adapters.Controllers
             }
         }
 
-        public async Task<Pedido> AtualizarProduto(int idPedido, int idPedidoProduto, int novaQuantidade, string? observacao)
+        public async Task<Pedido> AtualizarProduto(int idPedido, AtualizarProdutoPedidoRequest produto)
         {
             try
             {
@@ -47,7 +48,9 @@ namespace Adapters.Controllers
                 if (pedido == null)
                     throw new BusinessException("Pedido não encontrado.");
 
-                await _pedidoGateway.AtualizarProduto(idPedido, idPedidoProduto, novaQuantidade, observacao);
+                var produtoEntity = ProdutoMapper.ToEntity(produto);
+
+                await _pedidoGateway.AtualizarProduto(idPedido, produtoEntity);
                 return await _pedidoGateway.BuscarPedidoPorId(idPedido);
             }
             catch (Exception ex)
@@ -57,26 +60,14 @@ namespace Adapters.Controllers
             }
         }
 
-        public async Task<Pedido> IniciarPedido(string? cpf)
+        public async Task<Pedido> IniciarPedido(ClienteRequest? cliente)
         {
             try
             {
-                
-                //Cliente? cliente = null;
-
-                //if (!string.IsNullOrWhiteSpace(cpf))
-                //{
-                //    cliente = await _clienteGateway.BuscarClientePorCPF(cpf);
-
-                //    if (cliente == null)
-                //        throw new BusinessException("Cliente não encontrado.");
-                //}
-
-                //var pedido = await _pedidoGateway.IniciarPedido(cliente?.Cpf);
-
-                //return pedido;
-
-                Pedido pedido = await _pedidoGateway.IniciarPedido(cpf);
+                Cliente clienteEntity = null;
+                if (cliente != null)
+                    clienteEntity = ClienteMapper.ToEntity(cliente);
+                Pedido pedido = await _pedidoGateway.IniciarPedido(clienteEntity);
                 return pedido;
             }
             catch (Exception ex)

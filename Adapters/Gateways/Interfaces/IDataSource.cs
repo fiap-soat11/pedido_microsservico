@@ -7,7 +7,7 @@ namespace Adapters.Gateways.Interfaces
         
 
         #region Pedido DataSource
-        Task<Pedido> IniciarPedido(string cpf);
+        Task<Pedido> IniciarPedido(Cliente cliente);
         Task AtualizarStatusPedido(int idStatusPedido, int idPedido);
         Task<Pedido> BuscarPedidoPorId(int idPedido);
         Task CancelarPedido(int idPedido);
@@ -15,9 +15,9 @@ namespace Adapters.Gateways.Interfaces
         Task<IEnumerable<Pedido>> ListarPedidoClienteStatus();
         Task<IEnumerable<Pedido>> ListarPedidoCozinha();
         Task<IEnumerable<Pedido>> ListarPedidos();
-        Task<Pedido> AdicionarProduto(int idPedido, int idProduto, int quantidade, string? observacao);
-        Task<Pedido> AtualizarProduto(int idPedido, int idPedidoProduto, int novaQuantidade, string? observacao);
-        Task<Pedido> RemoverProduto(int idPedido, int idPedidoProduto);
+        Task<Pedido> AdicionarProduto(int idPedido, Produto produto);
+        Task<Pedido> AtualizarProduto(int idPedido, Produto produto);
+        Task<Pedido> RemoverProduto(int idPedido, int idProduto);
         void AtualizarPedido(Pedido pedido);
         void RecalcularValorTotal(Pedido pedido);
 

@@ -6,10 +6,10 @@ namespace Domain;
 public partial class Pedido
 {
     [DynamoDBHashKey("pedido_id")]
-    public string PedidoId { get; set; } = string.Empty;
+    public int PedidoId { get; set; } = 0;
 
     [DynamoDBProperty("data_pedido")]
-    public string? DataPedido { get; set; }
+    public string DataPedido { get; set; }
 
     [DynamoDBProperty("valor_total")]
     public decimal? ValorTotal { get; set; }
@@ -21,13 +21,15 @@ public partial class Pedido
     public List<Produto>? Produtos { get; set; }
 
     [DynamoDBProperty("status_atual")]
-    public string? StatusAtual { get; set; }
+    public int? StatusAtual { get; set; }
 
-    [DynamoDBProperty("historico_status")]
-    public List<HistoricoStatus>? HistoricoStatus { get; set; }
+    //[DynamoDBProperty("historico_status")]
+    //public List<HistoricoStatus>? HistoricoStatus { get; set; }
 
-    [DynamoDBProperty("pagamento")]
-    public Pagamento? Pagamento { get; set; }
+    //[DynamoDBProperty("pagamento")]
+    //public Pagamento? Pagamento { get; set; }
+
+    public DateTime DataPedidoFormatado => DateTime.Parse(DataPedido);
 }
 
 public class Cliente
@@ -45,7 +47,7 @@ public class Cliente
 public class Produto
 {
     [DynamoDBProperty("id_produto")]
-    public string? IdProduto { get; set; }
+    public int IdProduto { get; set; }
 
     [DynamoDBProperty("nome")]
     public string? Nome { get; set; }
@@ -60,26 +62,26 @@ public class Produto
     public string? Observacao { get; set; }
 }
 
-public class HistoricoStatus
-{
-    [DynamoDBProperty("status")]
-    public string? Status { get; set; }
+//public class HistoricoStatus
+//{
+//    [DynamoDBProperty("status")]
+//    public string? Status { get; set; }
 
-    [DynamoDBProperty("data")]
-    public string? Data { get; set; }
-}
+//    [DynamoDBProperty("data")]
+//    public string? Data { get; set; }
+//}
 
-public class Pagamento
-{
-    [DynamoDBProperty("id_pagamento")]
-    public string? IdPagamento { get; set; }
+//public class Pagamento
+//{
+//    [DynamoDBProperty("id_pagamento")]
+//    public string? IdPagamento { get; set; }
 
-    [DynamoDBProperty("forma_pagamento")]
-    public string? FormaPagamento { get; set; }
+//    [DynamoDBProperty("forma_pagamento")]
+//    public string? FormaPagamento { get; set; }
 
-    [DynamoDBProperty("status")]
-    public string? Status { get; set; }
+//    [DynamoDBProperty("status")]
+//    public string? Status { get; set; }
 
-    [DynamoDBProperty("data_pagamento")]
-    public string? DataPagamento { get; set; }
-}
+//    [DynamoDBProperty("data_pagamento")]
+//    public string? DataPagamento { get; set; }
+//}
