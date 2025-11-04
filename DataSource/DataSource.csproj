@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="4.0.9.3" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.400.21" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.301" />
     <PackageReference Include="mercadopago-sdk" Version="2.5.0" />
     <PackageReference Include="QRCoder" Version="1.6.0" />

@@ -11,6 +11,7 @@ using FluentValidation;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using Amazon.Runtime;
 
 namespace WebAPI.Configurations
 {
@@ -21,10 +22,26 @@ namespace WebAPI.Configurations
 
             #region conexões AWS DynamoDB
             
-            var awsOptions = configuration.GetAWSOptions();
+            var serviceUrl = configuration["AWS:DynamoDB:ServiceURL"];
+            var region = configuration["AWS:Region"] ?? "us-east-1";
             
-            Services.AddDefaultAWSOptions(awsOptions);
-            Services.AddAWSService<IAmazonDynamoDB>();
+            // Se estiver usando DynamoDB Local, configura credenciais fake
+            if (!string.IsNullOrEmpty(serviceUrl))
+            {
+                var credentials = new BasicAWSCredentials("fakeAccessKey", "fakeSecretKey");
+                var config = new AmazonDynamoDBConfig
+                {
+                    ServiceURL = serviceUrl
+                };
+                
+                Services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(credentials, config));
+            }
+            else
+            {
+                var awsOptions = configuration.GetAWSOptions();
+                Services.AddDefaultAWSOptions(awsOptions);
+                Services.AddAWSService<IAmazonDynamoDB>();
+            }
             
             Services.AddScoped<DynamoDbContext>();
             Services.AddScoped<IDataSource, DataSource.DataSource>();

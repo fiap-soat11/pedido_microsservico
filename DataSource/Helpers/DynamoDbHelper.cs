@@ -159,7 +159,7 @@ namespace DataSource.Helpers
             };
 
             var response = await _client.ScanAsync(request);
-            return response.Count ?? 0;
+            return response.Count;
         }
 
         
