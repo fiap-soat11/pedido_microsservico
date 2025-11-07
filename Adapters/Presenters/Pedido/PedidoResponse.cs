@@ -8,11 +8,11 @@ namespace Adapters.Presenters.Pedido
 
         public string? Cpf { get; set; }
 
-        public int? IdStatusAtual { get; set; }
+        public string StatusAtual { get; set; }
 
         public decimal? ValorTotal { get; set; }
 
-        public DateOnly? DataPedido { get; set; }
+        public DateTime? DataPedido { get; set; }
 
         //public virtual Cliente? CpfNavigation { get; set; } = null;
 

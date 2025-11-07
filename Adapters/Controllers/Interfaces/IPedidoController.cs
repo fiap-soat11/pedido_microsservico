@@ -17,10 +17,10 @@ namespace Adapters.Controllers.Interfaces
         Task<bool> FinalizarPedido(int pedido);
         Task<Pedido> BuscarPedidoPorId(int idPedido);
         Task<bool> CancelarPedido(int pedido);        
-        Task<Pedido> IniciarPedido(string cpf);
-        Task<Pedido> AdicionarProduto(int idPedido, int idProduto, int quantidade, string? observacao);
-        Task<Pedido> AtualizarProduto(int idPedido, int idPedidoProduto, int novaQuantidade, string? observacao);
-        Task<Pedido> RemoverProduto(int idPedido, int idPedidoProduto);
+        Task<Pedido> IniciarPedido(ClienteRequest? cliente);
+        Task<Pedido> AdicionarProduto(int idPedido, AdicionarProdutoPedidoRequest produto);
+        Task<Pedido> AtualizarProduto(int idPedido, AtualizarProdutoPedidoRequest produto);
+        Task<Pedido> RemoverProduto(int idPedido, int idProduto);
         //List<PedidoProduto> ListarProdutosDoPedido(int idPedido);
     }
 }

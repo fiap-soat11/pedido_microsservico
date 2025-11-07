@@ -14,8 +14,8 @@ namespace Adapters.Gateways
             => _dataSource = dataSource;
 
         // Cria e retorna o pedido
-        public Task<Pedido> IniciarPedido(string cpf)
-            => _dataSource.IniciarPedido(cpf);
+        public Task<Pedido> IniciarPedido(Cliente cliente)
+            => _dataSource.IniciarPedido(cliente);
 
         // Busca pelo ID
         public Task<Pedido> BuscarPedidoPorId(int idPedido)
@@ -43,14 +43,14 @@ namespace Adapters.Gateways
             => _dataSource.AtualizarStatusPedido(idStatusPedido, idPedido);
 
         // CRUD de itens do pedido
-        public Task<Pedido> AdicionarProduto(int idPedido, int idProduto, int quantidade, string? observacao)
-            => _dataSource.AdicionarProduto(idPedido, idProduto, quantidade, observacao);
+        public Task<Pedido> AdicionarProduto(int idPedido, Produto produto)
+            => _dataSource.AdicionarProduto(idPedido, produto);
 
-        public Task<Pedido> AtualizarProduto(int idPedido, int idPedidoProduto, int novaQuantidade, string? observacao)
-            => _dataSource.AtualizarProduto(idPedido, idPedidoProduto, novaQuantidade, observacao);
+        public Task<Pedido> AtualizarProduto(int idPedido, Produto produto)
+            => _dataSource.AtualizarProduto(idPedido, produto);
 
-        public Task<Pedido> RemoverProduto(int idPedido, int idPedidoProduto)
-            => _dataSource.RemoverProduto(idPedido, idPedidoProduto);
+        public Task<Pedido> RemoverProduto(int idPedido, int idProduto)
+            => _dataSource.RemoverProduto(idPedido, idProduto);
 
         // Recalcula o valor total do pedido em memória
         public void RecalcularValorTotal(Pedido pedido)

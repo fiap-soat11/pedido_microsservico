@@ -6,6 +6,7 @@ using Adapters.Controllers.Interfaces;
 
 using Adapters.Presenters.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using Domain;
 
 namespace WebAPI.Controllers
 {
@@ -82,11 +83,11 @@ namespace WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         [Consumes("application/json")]
-        public async Task<IActionResult> IniciarPedido(string? cpf)
+        public async Task<IActionResult> IniciarPedido(ClienteRequest? cliente)
         {
             try
             {
-                var pedido = await _pedidoController.IniciarPedido(cpf);
+                var pedido = await _pedidoController.IniciarPedido(cliente);
 
                 var pedidoResponse = PedidoMapper.PedidoClienteToDTO(pedido);
 
@@ -188,7 +189,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var pedidoAtualizado = await _pedidoController.AdicionarProduto(idPedido, request.IdProduto, request.Quantidade, request.Observacao);
+                var pedidoAtualizado = await _pedidoController.AdicionarProduto(idPedido, request);
                 return Ok(PedidoMapper.ToResponse(pedidoAtualizado));
             }
             catch (BusinessException ex)
@@ -206,7 +207,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var pedidoAtualizado = await _pedidoController.AtualizarProduto(idPedido, idPedidoProduto, request.NovaQuantidade, request.Observacao);
+                var pedidoAtualizado = await _pedidoController.AtualizarProduto(idPedido, request);
                 return Ok(PedidoMapper.ToResponse(pedidoAtualizado));
             }
             catch (BusinessException ex)
