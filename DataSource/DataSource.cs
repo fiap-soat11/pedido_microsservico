@@ -25,7 +25,8 @@ namespace DataSource
             {
                 Cliente = cliente,
                 StatusAtual = (int)StatusPedidoEnum.Iniciado,
-                ValorTotal = 0
+                ValorTotal = 0,
+                DataPedido = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
             };
 
             _pedidoRepository.Inserir(pedido);
