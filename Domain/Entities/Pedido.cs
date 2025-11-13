@@ -5,7 +5,7 @@ namespace Domain;
 [DynamoDBTable("Pedidos")]
 public partial class Pedido
 {
-    [DynamoDBHashKey("pedido_id")]
+    [DynamoDBHashKey("IdPedido")]
     public int PedidoId { get; set; } = 0;
 
     [DynamoDBProperty("data_pedido")]
@@ -29,7 +29,7 @@ public partial class Pedido
     //[DynamoDBProperty("pagamento")]
     //public Pagamento? Pagamento { get; set; }
 
-    public DateTime DataPedidoFormatado => DateTime.Parse(DataPedido);
+    public DateTime DataPedidoFormatado => !string.IsNullOrEmpty(DataPedido) ? DateTime.Parse(DataPedido) : DateTime.MinValue;
 }
 
 public class Cliente
