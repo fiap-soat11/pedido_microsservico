@@ -38,13 +38,17 @@ jobs:
               run: |
                 mkdir -p ${{ runner.temp }}/scanner
                 dotnet tool update dotnet-sonarscanner --tool-path ${{ runner.temp }}/scanner
+            - name: Run tests and collect coverage
+              run: |
+                dotnet test ./WebAPI/WebAPI.csproj --configuration Release --collect:"XPlat Code Coverage"
             - name: Build and analyze
               run: |
-                ${{ runner.temp }}/scanner/dotnet-sonarscanner begin /k:"fiap-soat11_pedido_microsservico" /o:"fiap-soat11" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-                dotnet build ${{ runner.temp }}/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-            - name: Build with dotnet
-              run: |
+                ${{ runner.temp }}/scanner/dotnet-sonarscanner begin /k:"fiap-soat11_pedido_microsservico" /o:"fiap-soat11" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/TestResults/*/coverage.cobertura.xml"
                 dotnet build ./WebAPI/WebAPI.csproj --configuration Release
+                ${{ runner.temp }}/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+            #- name: Build with dotnet
+            #  run: |
+            #    dotnet build ./WebAPI/WebAPI.csproj --configuration Release
             #- name: SonarCloud End
             #  env:
             #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
