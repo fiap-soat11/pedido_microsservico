@@ -12,6 +12,7 @@ using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Runtime;
+using Amazon.Extensions.NETCore.Setup;
 
 namespace WebAPI.Configurations
 {
@@ -24,18 +25,16 @@ namespace WebAPI.Configurations
             
             var serviceUrl = configuration["AWS:DynamoDB:ServiceURL"];
             var region = configuration["AWS:Region"] ?? "us-east-1";
-            
-            if (!string.IsNullOrEmpty(serviceUrl))
-            {
-                var credentials = new BasicAWSCredentials("fakeAccessKey", "fakeSecretKey");
-                var config = new AmazonDynamoDBConfig
-                {
-                    ServiceURL = serviceUrl,
-                    //RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName(region),
-                    
+            var accessKey = configuration["AWS:AccessKey"] ;
+            var secretKey = configuration["AWS:SecretKey"];
+            var token = configuration["AWS:Token"];
 
-                };
-                Services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(credentials, config));
+            if (!string.IsNullOrEmpty(accessKey))
+            {
+                var awsOptions = configuration.GetAWSOptions();
+                awsOptions.Credentials = new SessionAWSCredentials(accessKey, secretKey, token);
+                Services.AddDefaultAWSOptions(awsOptions);
+                Services.AddAWSService<IAmazonDynamoDB>();
             }
             else
             {
